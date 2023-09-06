@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+      :root{
+        --color1: #201b9b;
+        --color2: #3d31b4;
+        --color3: #5a47cd;
+        --color4: #775ce6;
+        --color5: #9472ff;
+      }
+      html, body{
+        background-color: var(--color3);
+        color: white;
+      }
+      .caixinha{
+        background-color: white;
+        color: var(--color1);
+        height: 12rem;
+      }
+      .btn-enviar{
+        background-color: var(--color2);
+        color: white;
+      }
+      .btn-enviar:hover{
+        background-color: var(--color4);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="container">
+      <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-8">
+          <div class="caixinha rounded shadow-lg px-4 py-3">
+            <h3>Converter Vídeo Mp4 para Áudio Mp3</h3>
+            <!-- Formulário -->
+            <form action="/upload" method="post" enctype="multipart/form-data">
+              <div class="form-row">
+                <div class="col mb-2">
+                  <label for="formFile" class="form-label">Selecione um arquivo válido:</label>
+                  {% if not TudoOK %}
+                  <input type="file" class="form-control form-control-sm" id="formFile" name="arquivo" accept=".mp4">
+                  {% else %}
+                  <input type="file" class="form-control form-control-sm" disabled>
+                  {% endif %}
+                </div>
+                {% if not TudoOK %}
+                <button class="btn btn-enviar" type="submit">Enviar arquivo</button>
+                {% else %}
+                <a class="btn btn-success" href="{{ url_for('download', arquivo=arquivoBaixar) }}" onclick="voltar()" role="button">Pronto para download</a>
+                {% endif %} 
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% if TudoOK %}
+    <div class="fixed-top p-2 bg-success text-center">
+      <h4>Arquivo foi baixado</h4>
+    </div>
+    {% endif %}
+
+    {% if deuErro %}
+    <div class="fixed-top p-2 bg-dark text-center">
+      <h4>Arquivo não foi encontrado</h4>
+    </div>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script>
+
+    function voltar(){  
+      setTimeout(function() {
+        window.location.replace("/");
+      }, 5000);
+    }
+
+    </script>
+  </body>
+</html>
